@@ -1,2 +1,2 @@
-# rust
-rust playground
+# Rust Playground
+Aiming to learn a new language in 2021 and this seems like a good money maker for future opportunities - maybe a future crypto OMS or something....
