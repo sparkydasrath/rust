@@ -10,6 +10,7 @@ fn main() {
         simulated_random_number,
     );
     generate_workout_with_closure(simulated_user_specified_value, simulated_random_number);
+    generate_workout_with_cache(simulated_user_specified_value, simulated_random_number);
 }
 
 fn generate_workout_without_closure(intensity: u32, random_number: u32) {
@@ -31,6 +32,28 @@ fn generate_workout_without_closure(intensity: u32, random_number: u32) {
             println!(
                 "Today, run for {} minutes!",
                 simulated_expensive_calculation(intensity)
+            );
+        }
+    }
+}
+
+fn generate_workout_with_cache(intensity: u32, random_number: u32) {
+    println!("\n with cache");
+    let mut expensive_result = Cacher::new(|num| {
+        println!("calculating slowly...");
+        thread::sleep(Duration::from_secs(2));
+        num
+    });
+    if intensity < 25 {
+        println!("Today, do {} pushups!", expensive_result.value(intensity));
+        println!("Next, do {} situps!", expensive_result.value(intensity));
+    } else {
+        if random_number == 3 {
+            println!("Take a break today! Remember to stay hydrated!");
+        } else {
+            println!(
+                "Today, run for {} minutes!",
+                expensive_result.value(intensity)
             );
         }
     }
@@ -81,4 +104,36 @@ fn simulated_expensive_calculation(intensity: u32) -> u32 {
     println!("calculating slowly...");
     thread::sleep(Duration::from_secs(2));
     intensity
+}
+
+struct Cacher<T>
+where
+    T: Fn(u32) -> u32,
+{
+    // adding a struct to hold the closure and do memoization
+    calculation: T,
+    value: Option<u32>,
+}
+
+impl<T> Cacher<T>
+where
+    T: Fn(u32) -> u32,
+{
+    fn new(calculation: T) -> Cacher<T> {
+        Cacher {
+            calculation: calculation,
+            value: None,
+        }
+    }
+
+    fn value(&mut self, arg: u32) -> u32 {
+        match self.value {
+            Some(value) => value,
+            None => {
+                let v = (self.calculation)(arg);
+                self.value = Some(v);
+                v
+            }
+        }
+    }
 }
