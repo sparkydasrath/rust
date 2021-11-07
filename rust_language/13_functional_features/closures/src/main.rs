@@ -5,7 +5,10 @@ fn main() {
     let simulated_random_number = 7;
 
     generate_workout_without_closure(simulated_user_specified_value, simulated_random_number);
-    generate_workout_with_closure(simulated_user_specified_value, simulated_random_number);
+    generate_workout_without_closure_but_better(
+        simulated_user_specified_value,
+        simulated_random_number,
+    );
 }
 
 fn generate_workout_without_closure(intensity: u32, random_number: u32) {
@@ -30,7 +33,7 @@ fn generate_workout_without_closure(intensity: u32, random_number: u32) {
     }
 }
 
-fn generate_workout_with_closure(intensity: u32, random_number: u32) {
+fn generate_workout_without_closure_but_better(intensity: u32, random_number: u32) {
     let expensive_result = simulated_expensive_calculation(intensity);
 
     if intensity < 25 {
