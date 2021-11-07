@@ -46,10 +46,12 @@ fn generate_workout_with_closure(intensity: u32, random_number: u32) {
     };
 
     if intensity < 25 {
+        // closure is still being called twice here
         println!("Today, do {} pushups!", expensive_closure(intensity));
         println!("Next, do {} situps!", expensive_closure(intensity));
     } else {
         if random_number == 3 {
+            // closure not used so no need to call it
             println!("Take a break today! Remember to stay hydrated!");
         } else {
             println!("Today, run for {} minutes!", expensive_closure(intensity));
@@ -67,6 +69,7 @@ fn generate_workout_without_closure_but_better(intensity: u32, random_number: u3
         println!("Next, do {} situps!", expensive_result);
     } else {
         if random_number == 3 {
+            // expensive_result is still executed but not even used here
             println!("Take a break today! Remember to stay hydrated!");
         } else {
             println!("Today, run for {} minutes!", expensive_result);
