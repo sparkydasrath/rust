@@ -1,28 +1,25 @@
 fn main() {
     println!("Iterators");
 
-    let v1 = vec![1, 2, 3];
-
+    println!("\n iterator consumer");
+    let c1 = vec![1, 2, 3];
     // create iterator
-    let v1_iter = v1.iter();
-
-    for val in v1_iter {
+    let c1_iter = c1.iter();
+    for val in c1_iter {
         // use iterator
         /*
         when we used a for loop because the loop took
         ownership of v1_iter and made it mutable behind the scenes
         */
-        println!("Got: {}", val);
+        println!("Consumer: {}", val);
     }
-}
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn itertator_sum() {
-        let v1 = vec![1, 2, 3];
-        let v1_iter = v1.iter();
-        let total: i32 = v1_iter.sum();
-        assert_eq!(total, 6);
+    println!("\n iterator producer");
+    let p1 = vec![1, 2, 3];
+    let p2: Vec<_> = p1.iter().map(|x| x + 1).collect();
+    assert_eq!(p2, vec![2, 3, 4]);
+
+    for val in p2 {
+        println!("Producer {}", val);
     }
 }
