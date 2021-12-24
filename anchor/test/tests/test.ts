@@ -1,13 +1,13 @@
 import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
-import { Basic1 } from '../target/types/basic_1';
+import { Test } from '../target/types/test';
 
-describe('basic-1', () => {
+describe('test', () => {
 
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.Provider.env());
 
-  const program = anchor.workspace.Basic1 as Program<Basic1>;
+  const program = anchor.workspace.Test as Program<Test>;
 
   it('Is initialized!', async () => {
     // Add your test here.
