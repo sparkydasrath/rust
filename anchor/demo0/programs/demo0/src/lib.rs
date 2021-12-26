@@ -1,6 +1,7 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+// used the pubkey from test-wallet/demo-keypair.json
+declare_id!("8JakaAVcvKE5Ajo79Taa67wyYvWB7kaX6GjwWxp6Cud7");
 
 #[program]
 pub mod demo0 {

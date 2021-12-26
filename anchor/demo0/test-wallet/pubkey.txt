@@ -1,0 +1,2 @@
+Will use the pubkey of the /test-wallet pair:
+8JakaAVcvKE5Ajo79Taa67wyYvWB7kaX6GjwWxp6Cud7
