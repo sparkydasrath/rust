@@ -9,12 +9,13 @@ pub mod demo0 {
     pub fn initialize_deposit_account(ctx: Context<InitializeDepositAccount>) -> ProgramResult {
         let deposit_account = &mut ctx.accounts.deposit_account;
         deposit_account.authority = *ctx.accounts.authority.key;
+        deposit_account.amount = 0;
         Ok(())
     }
 
-    pub fn deposit(ctx: Context<InitializeDepositAccount>, amount: String) -> ProgramResult {
+    pub fn deposit(ctx: Context<InitializeDepositAccount>, amount: u8) -> ProgramResult {
         let deposit_account = &mut ctx.accounts.deposit_account;
-        deposit_account.amount = amount;
+        deposit_account.amount += amount;
         Ok(())
     }
 }
@@ -38,5 +39,5 @@ pub struct Deposit<'info> {
 pub struct DepositAccount {
     // this will be the payer for the DepositAccount
     pub authority: Pubkey,
-    pub amount: String,
+    pub amount: u8,
 }

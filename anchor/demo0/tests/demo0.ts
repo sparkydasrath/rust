@@ -39,7 +39,7 @@ describe('demo0', () => {
 
     console.log("Starting amount = ", _depositAccount.amount);
 
-    const tx = await program.rpc.deposit("test", {
+    const tx = await program.rpc.deposit(1, {
       accounts:{
         depositAccount: _depositAccount.publicKey,
         authority: provider.wallet.publicKey,
