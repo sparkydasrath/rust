@@ -9,17 +9,18 @@ describe('demo0', () => {
   // Configure the client to use the local cluster.
   const provider = anchor.Provider.env();
   anchor.setProvider(provider);
+  let _depositAccount;
 
   const program = anchor.workspace.Demo0 as Program<Demo0>;
 
   it('Is initialized!', async () => {
     // Add your test here.
-    let depositAccount = Keypair.generate();
-    const tx = await program.rpc.initialize({
+    let depositAccount = anchor.web3.Keypair.generate();
+    const tx = await program.rpc.initializeDepositAccount({
       accounts:{
-        deposit_account: depositAccount.publicKey,
+        depositAccount: depositAccount.publicKey,
         authority: provider.wallet.publicKey,
-        system_program: SystemProgram.programId
+        systemProgram: SystemProgram.programId
       },
       signers: [depositAccount]
     });
@@ -29,5 +30,24 @@ describe('demo0', () => {
     const account = await program.account.depositAccount.fetch(depositAccount.publicKey);
 
     console.log("Account from cluster", account);
+
+    _depositAccount = depositAccount;
+
+  });
+
+  it('Is deposit!', async () => {
+
+    console.log("Starting amount = ", _depositAccount.amount);
+
+    const tx = await program.rpc.deposit("test", {
+      accounts:{
+        depositAccount: _depositAccount.publicKey,
+        authority: provider.wallet.publicKey,
+        systemProgram: SystemProgram.programId
+      },
+    });
+
+    const testAccount = await program.account.depositAccount.fetch(_depositAccount.publicKey);
+    console.log("Test account = ", testAccount.amount);
   });
 });

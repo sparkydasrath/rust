@@ -1,27 +1,27 @@
 use anchor_lang::prelude::*;
 
-declare_id!("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS");
+declare_id!("BWTsZXDnSusYAdeyqVg2Rgt593HxQw14E8ox3U5mf7So");
 
 #[program]
 pub mod demo0 {
     use super::*;
 
     pub fn initialize_deposit_account(ctx: Context<InitializeDepositAccount>) -> ProgramResult {
-        let deposit_account = &ctx.accounts.deposit_account;
+        let deposit_account = &mut ctx.accounts.deposit_account;
         deposit_account.authority = *ctx.accounts.authority.key;
         Ok(())
     }
 
-    pub fn deposit(ctx: Context<InitializeDepositAccount>, amount: u8) -> ProgramResult {
-        let deposit_account = &ctx.accounts.deposit_account;
-        deposit_account.amount += amount;
+    pub fn deposit(ctx: Context<InitializeDepositAccount>, amount: String) -> ProgramResult {
+        let deposit_account = &mut ctx.accounts.deposit_account;
+        deposit_account.amount = amount;
         Ok(())
     }
 }
 
 #[derive(Accounts)]
 pub struct InitializeDepositAccount<'info> {
-    #[account(init, payer = authority, space = 8 + 32 + 1)]
+    #[account(init, payer = authority, space = 8 + 32 + 64)]
     pub deposit_account: Account<'info, DepositAccount>,
     pub authority: Signer<'info>,
     pub system_program: Program<'info, System>,
@@ -38,5 +38,5 @@ pub struct Deposit<'info> {
 pub struct DepositAccount {
     // this will be the payer for the DepositAccount
     pub authority: Pubkey,
-    pub amount: u8,
+    pub amount: String,
 }
