@@ -13,7 +13,7 @@ pub mod demo0 {
         Ok(())
     }
 
-    pub fn deposit(ctx: Context<InitializeDepositAccount>, amount: u8) -> ProgramResult {
+    pub fn deposit(ctx: Context<Deposit>, amount: u8) -> ProgramResult {
         let deposit_account = &mut ctx.accounts.deposit_account;
         deposit_account.amount += amount;
         Ok(())

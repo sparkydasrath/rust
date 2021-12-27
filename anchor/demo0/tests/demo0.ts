@@ -7,7 +7,7 @@ import assert = require("assert");
 describe('demo0', () => {
 
   // Configure the client to use the local cluster.
-  const provider = anchor.Provider.env();
+  const provider = anchor.Provider.local();
   anchor.setProvider(provider);
   let _depositAccount;
 
@@ -24,6 +24,8 @@ describe('demo0', () => {
       },
       signers: [depositAccount]
     });
+    console.log("ProgramId = ", SystemProgram.programId);
+    console.log("depositAccount = ", depositAccount);
     console.log("Your transaction signature", tx);
 
     // get account from cluster
@@ -37,13 +39,12 @@ describe('demo0', () => {
 
   it('Is deposit!', async () => {
 
-    console.log("Starting amount = ", _depositAccount.amount);
+    //console.log("Starting amount = ", _depositAccount.amount);
 
     const tx = await program.rpc.deposit(1, {
       accounts:{
         depositAccount: _depositAccount.publicKey,
         authority: provider.wallet.publicKey,
-        systemProgram: SystemProgram.programId
       },
     });
 
