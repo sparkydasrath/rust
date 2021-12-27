@@ -98,64 +98,52 @@ function App() {
 
   if (!wallet.connected) {
     /* If the user's wallet is not connected, display connect wallet button. */
-    return ( <
-      div style = {
-        {
-          display: 'flex',
-          justifyContent: 'center',
-          marginTop: '100px'
-        }
-      } >
+    return (<div style={
+      {
+        display: 'flex',
+        justifyContent: 'center',
+        marginTop: '100px'
+      }
+    } >
       <
-      WalletMultiButton / >
-      <
-      /div>
+        WalletMultiButton />
+    </div>
     )
   } else {
-    return ( <
-      div className = "App" >
-      <
-      div > {
-        !value && ( < button onClick = {
-            createCounter
-          } > Create counter < /button>)
-        } {
-          value && < button onClick = {
+    return (<div className="App" >
+      <div > {
+        !value && (<button onClick={
+          createCounter
+        } > Create counter </button>)
+      } {
+          value && < button onClick={
             increment
-          } > Increment counter < /button>
+          } > Increment counter </button>
         }
 
         {
-          value && value >= Number(0) ? ( <
+          value && value >= Number(0) ? (<
             h2 > {
               value
-            } < /h2>
-          ) : ( <
-            h3 > Please create the counter. < /h3>
-          )
-        } <
-        /div> <
-        /div>
-      );
-    }
+            } </h2>
+          ) : (< h3 > Please create the counter. </h3>)
+        } </div> </div >
+    );
   }
+}
 
-  /* wallet configuration as specified here: https://github.com/solana-labs/wallet-adapter#setup */
-  const AppWithProvider = () => ( <
-    ConnectionProvider endpoint = "http://127.0.0.1:8899" >
-    <
-    WalletProvider wallets = {
+/* wallet configuration as specified here: https://github.com/solana-labs/wallet-adapter#setup */
+const AppWithProvider = () => (<
+  ConnectionProvider endpoint="http://127.0.0.1:8899" >
+  <
+    WalletProvider wallets={
       wallets
     }
     autoConnect >
-    <
-    WalletModalProvider >
-    <
-    App / >
-    <
-    /WalletModalProvider> <
-    /WalletProvider> <
-    /ConnectionProvider>
-  )
+    <WalletModalProvider >
+      <
+        App />
+    </WalletModalProvider> </WalletProvider > </ConnectionProvider>
+)
 
-  export default AppWithProvider;
+export default AppWithProvider;
