@@ -2,7 +2,7 @@ import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
 import { P0001 } from '../target/types/p0001';
 
-describe('p0001', () => {
+describe('P0001', () => {
 
   // Configure the client to use the local cluster.
   anchor.setProvider(anchor.Provider.env());
