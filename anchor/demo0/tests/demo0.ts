@@ -37,7 +37,7 @@ describe('demo0', () => {
 
   });
 
-  it('Is deposit!', async () => {
+  it('Update the deposit', async () => {
 
     //console.log("Starting amount = ", _depositAccount.amount);
 
