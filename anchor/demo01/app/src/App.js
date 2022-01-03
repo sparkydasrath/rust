@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import idl from './idl.json';
-import { getPhantomWallet } from '@solana/wallet-adapter-wallets';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
-const wallets = [getPhantomWallet()]
+const wallets = [new PhantomWalletAdapter()]
 const { SystemProgram, Keypair } = web3;
 
 // create account
@@ -17,8 +17,8 @@ const depositAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed"
 }
-// TODO: fill in after importing idl
-const programID = new PublicKey();
+
+const programID = new PublicKey(idl.metadata.address);
 
 function App() {
   const [value, setValue] = useState(null);
