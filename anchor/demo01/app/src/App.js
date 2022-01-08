@@ -41,7 +41,7 @@ function App() {
     const provider = await getProvider();
     const program = new Program(idl, programID, provider);
     try {
-      await program.rpc.initialize_deposit_account({
+      await program.rpc.initializeDepositAccount({
         accounts: {
           depositAccount: depositAccount.publicKey,
           authority: provider.wallet.publicKey,
@@ -74,10 +74,10 @@ function App() {
 
     <div>
       Initial mystate = {myTestValue}
-      <button onClick={() => setCount(comyTestValueunt + 1)}></button>
+      <button onClick={() => setMyTestValue(myTestValue + 1)}>Add 1</button>
       <p>Create Account</p>
       <button onClick={createDepositAccount}>Create deposit account</button>
-
+      Account info = {value}
       <p>Deposit 3</p>
       <button onClick={deposit}>Deposit 3 units</button>
     </div>
