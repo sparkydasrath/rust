@@ -3,6 +3,16 @@
 
 https://dev.to/dabit3/the-complete-guide-to-full-stack-solana-development-with-react-anchor-rust-and-phantom-3291
 
+Another difference between the tutorial is some API changes on the wallet adapter
+
+Instead of `import { getPhantomWallet } from '@solana/wallet-adapter-wallets';` use `import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';`
+and correct 
+`const wallets = [
+/* view list of available wallets at https://github.com/solana-labs/wallet-adapter#wallets */
+getPhantomWallet()
+]` tool
+`const wallets = [new PhantomWalletAdapter()]`
+
 # React App Issues
 Ran into an issue when trying to get the React app to work. Some of it is detailed in the Github issue
 https://github.com/solana-labs/wallet-adapter/issues/231
