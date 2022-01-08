@@ -2,9 +2,9 @@ import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
 import { Demo02 } from '../target/types/demo02';
 import assert = require("assert");
-import anchor = require("@project-serum/anchor");
-import { SystemProgram } = anchor.web3;
+import { SystemProgram } from "@solana/web3.js";
 
+let _baseAccount = null;
 describe('demo02', () => {
 
   /* create and set a Provider */

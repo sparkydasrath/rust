@@ -3,6 +3,7 @@
 
 https://dev.to/dabit3/the-complete-guide-to-full-stack-solana-development-with-react-anchor-rust-and-phantom-3291
 
+# React App Issues
 Ran into an issue when trying to get the React app to work. Some of it is detailed in the Github issue
 https://github.com/solana-labs/wallet-adapter/issues/231
 
