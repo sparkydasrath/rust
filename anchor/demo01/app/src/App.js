@@ -78,12 +78,13 @@ function App() {
   } else {
     return (
       <div className="App">
+        <div>Value = {value}</div>
         <div>
           {
             !value && (<button onClick={createDepositAccount}>Create deposit account</button>)
           }
           {
-            value && <button onClick={deposit}>Deposit 10 units</button>
+            value && <button onClick={deposit}>Deposit 3 units</button>
           }
 
           {
