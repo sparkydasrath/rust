@@ -22,6 +22,7 @@ const programID = new PublicKey(idl.metadata.address);
 
 function App() {
   const [value, setValue] = useState(null);
+  const [myTestValue, setMyTestValue] = useState(100);
   const wallet = useWallet();
 
   async function getProvider() {
@@ -68,36 +69,51 @@ function App() {
       },
     });
   }
-  if (!wallet.connected) {
-    /* If the user's wallet is not connected, display connect wallet button. */
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
-        <WalletMultiButton />
-      </div>
-    )
-  } else {
-    return (
-      <div className="App">
-        <div>Value = {value}</div>
-        <div>
-          {
-            !value && (<button onClick={createDepositAccount}>Create deposit account</button>)
-          }
-          {
-            value && <button onClick={deposit}>Deposit 3 units</button>
-          }
 
-          {
-            value && value >= Number(0) ? (
-              <h2>{value}</h2>
-            ) : (
-              <h3>Please create the deposit account.</h3>
-            )
-          }
-        </div>
-      </div>
-    );
-  }
+  return (
+
+    <div>
+      Initial mystate = {myTestValue}
+      <button onClick={() => setCount(comyTestValueunt + 1)}></button>
+      <p>Create Account</p>
+      <button onClick={createDepositAccount}>Create deposit account</button>
+
+      <p>Deposit 3</p>
+      <button onClick={deposit}>Deposit 3 units</button>
+    </div>
+
+  );
+
+  // if (!wallet.connected) {
+  //   /* If the user's wallet is not connected, display connect wallet button. */
+  //   return (
+  //     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
+  //       <WalletMultiButton />
+  //     </div>
+  //   )
+  // } else {
+  //   return (
+  //     <div className="App">
+  //       <div>Value = {value}</div>
+  //       <div>
+  //         {
+  //           !value && (<button onClick={createDepositAccount}>Create deposit account</button>)
+  //         }
+  //         {
+  //           value && <button onClick={deposit}>Deposit 3 units</button>
+  //         }
+
+  //         {
+  //           value && value >= Number(0) ? (
+  //             <h2>{value}</h2>
+  //           ) : (
+  //             <h3>Please create the deposit account.</h3>
+  //           )
+  //         }
+  //       </div>
+  //     </div>
+  //   );
+  // }
 }
 
 /* wallet configuration as specified here: https://github.com/solana-labs/wallet-adapter#setup */
