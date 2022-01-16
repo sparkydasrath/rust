@@ -1,4 +1,9 @@
-use solana_program::{
+pub mod entrypoint;
+pub mod error;
+mod processor;
+mod state;
+
+/*use solana_program::{
     account_info::AccountInfo, entrypoint, entrypoint::ProgramResult, msg, pubkey::Pubkey,
 };
 
@@ -16,7 +21,7 @@ fn process_instruction(
     );
     Ok(())
 }
-
+*/
 
 /* 
 #[cfg(test)]
