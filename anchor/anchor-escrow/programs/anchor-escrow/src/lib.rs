@@ -42,7 +42,7 @@ pub mod anchor_escrow {
             ctx.accounts.escrow_account.initializer_amount,
         )?;
 
-        anchor_lang::solana_program::system_program::Transfer();
+        // anchor_lang::solana_program::system_program::Transfer();
         Ok(())
     }
 
