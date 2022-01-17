@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-
+use solana_program;
 declare_id!("GJAfCxTjqgHuiAF8rosFV8VKhCk4DNa4wKQDq8w1sz7u");
 
 #[program]
@@ -11,11 +11,18 @@ pub mod demo03 {
         let copy = data.clone();
         base_account.data = data;
         base_account.data_list.push(copy);
+
+        // todo
+        base_account.to_account_info();
+        anchor_spl::system_instruction::transfer();
+        // todo
+
         Ok(())
     }
 
     pub fn update(ctx: Context<Update>, data: String) -> ProgramResult {
         let base_account = &mut ctx.accounts.base_account;
+
         let copy = data.clone();
         base_account.data = data;
         base_account.data_list.push(copy);
