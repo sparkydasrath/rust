@@ -1,5 +1,4 @@
 use anchor_lang::prelude::*;
-// deployed program id = YR15X7V3T2B9M7WQyemVVhzrptobfv7AybiFn8FhJXW
 declare_id!("YR15X7V3T2B9M7WQyemVVhzrptobfv7AybiFn8FhJXW");
 
 #[program]
