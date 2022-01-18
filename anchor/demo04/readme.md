@@ -50,7 +50,11 @@ I fixed my issue 2 fold in package.json
 Before running, in the `app` folder do
 `npm install @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets @solana/wallet-adapter-base`
 
+`yarn add @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets @solana/web3.js` 
 
 NEW FUCKING ERROR now
 ./node_modules/@solana/wallet-adapter-phantom/lib/esm/adapter.mjs
 Can't import the named export 'BaseMessageSignerWalletAdapter' from non EcmaScript module (only default export is available)
+
+doing `yarn add @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets @solana/web3.js react` 
+sorted the issue
