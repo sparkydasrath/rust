@@ -58,3 +58,35 @@ Can't import the named export 'BaseMessageSignerWalletAdapter' from non EcmaScri
 
 doing `yarn add @solana/wallet-adapter-base @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets @solana/web3.js react` 
 sorted the issue
+
+
+
+
+
+  async function initialize() {
+    const provider = await getProvider();
+    /* create the program interface combining the idl, program ID, and provider */
+    const program = new Program(idl, programID, provider);
+
+
+    try {
+      /* interact with the program via rpc */
+      await program.rpc.initialize("Hello World", {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount]
+      });
+
+      console.log('WALLET INFO: ', provider.wallet.publicKey);
+      let balance = await provider.connection.getBalance(provider.wallet.publicKey);
+      console.log("Balance = ", balance);
+
+      const baseAccount = await program.account.baseAccount.fetch(baseAccount.publicKey);
+      console.log('account: ', baseAccount);
+    } catch (err) {
+      console.log("Transaction error: ", err);
+    }
+  }

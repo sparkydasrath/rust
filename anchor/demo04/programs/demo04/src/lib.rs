@@ -1,6 +1,6 @@
 use anchor_lang::prelude::*;
 // deployed program id = YR15X7V3T2B9M7WQyemVVhzrptobfv7AybiFn8FhJXW
-declare_id!("H8KQe6NJabeJ89RkKznyTY1Te7NE45Hgky89zwnRxbRm");
+declare_id!("YR15X7V3T2B9M7WQyemVVhzrptobfv7AybiFn8FhJXW");
 
 #[program]
 pub mod demo04 {
@@ -29,6 +29,5 @@ pub struct Initialize<'info> {
 
 #[account]
 pub struct BaseAccount {
-    pub amount: u64
+    pub amount: u64,
 }
-

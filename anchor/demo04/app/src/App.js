@@ -1,5 +1,4 @@
 import './App.css';
-import { useState } from 'react';
 import { Connection, PublicKey } from '@solana/web3.js';
 import { Program, Provider, web3 } from '@project-serum/anchor';
 import idl from './idl.json';
@@ -17,10 +16,8 @@ const opts = {
   preflightCommitment: "processed"
 }
 const programID = new PublicKey(idl.metadata.address);
+
 function App() {
-  const [value, setValue] = useState('');
-  const [dataList, setDataList] = useState([]);
-  const [input, setInput] = useState('');
   const wallet = useWallet()
 
   async function getProvider() {
@@ -30,7 +27,7 @@ function App() {
     const connection = new Connection(network, opts.preflightCommitment);
 
     const provider = new Provider(
-        connection, wallet, opts.preflightCommitment,
+      connection, wallet, opts.preflightCommitment,
     );
     return provider;
   }
@@ -43,7 +40,7 @@ function App() {
 
     try {
       /* interact with the program via rpc */
-      await program.rpc.initialize("Hello World", {
+      await program.rpc.initialize({
         accounts: {
           baseAccount: baseAccount.publicKey,
           user: provider.wallet.publicKey,
@@ -56,8 +53,10 @@ function App() {
       let balance = await provider.connection.getBalance(provider.wallet.publicKey);
       console.log("Balance = ", balance);
 
-      const baseAccount = await program.account.baseAccount.fetch(baseAccount.publicKey);
-      console.log('account: ', baseAccount);
+      const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
+
+      console.log('account: ', account);
+
     } catch (err) {
       console.log("Transaction error: ", err);
     }
@@ -66,31 +65,33 @@ function App() {
 
   if (!wallet.connected) {
     return (
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop:'100px' }}>
-          <WalletMultiButton />
-        </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '100px' }}>
+        <WalletMultiButton />
+      </div>
     )
   } else {
     return (
-        <div className="App">
-          <div>
-            {
-                !value && (<button onClick={initialize}>Initialize</button>)
-            }
-          </div>
+      <div className="App">
+        <div>
+          {
+            (<button onClick={initialize}>Initialize</button>)
+          }
+
+
         </div>
+      </div>
     );
   }
 }
 
 const AppWithProvider = () => (
-    <ConnectionProvider endpoint="http://127.0.0.1:8899">
-      <WalletProvider wallets={wallets} autoConnect>
-        <WalletModalProvider>
-          <App />
-        </WalletModalProvider>
-      </WalletProvider>
-    </ConnectionProvider>
+  <ConnectionProvider endpoint="http://127.0.0.1:8899">
+    <WalletProvider wallets={wallets} autoConnect>
+      <WalletModalProvider>
+        <App />
+      </WalletModalProvider>
+    </WalletProvider>
+  </ConnectionProvider>
 )
 
 export default AppWithProvider;
