@@ -4,7 +4,7 @@ import { Program, Provider, web3 } from '@project-serum/anchor';
 import idl from './idl.json';
 
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
-import { useWallet, sendTransaction, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
+import { useWallet, WalletProvider, ConnectionProvider } from '@solana/wallet-adapter-react';
 import { WalletModalProvider, WalletMultiButton } from '@solana/wallet-adapter-react-ui';
 require('@solana/wallet-adapter-react-ui/styles.css');
 
@@ -18,8 +18,8 @@ const opts = {
 const programID = new PublicKey(idl.metadata.address);
 
 function App() {
-  const { wallet, sendTransaction } = useWallet()
-
+  const wallet = useWallet()
+  const { sendTransaction } = useWallet()
 
   async function getProvider() {
     /* create the provider and return it to the caller */
@@ -50,9 +50,15 @@ function App() {
         signers: [baseAccount]
       });
 
-      console.log("Wallet = ", JSON.stringify(provider.wallet.wallets[0]));
-      console.log("Base Account balance before tx = ", JSON.stringify(provider.connection.getBalanceAndContext(baseAccount.publicKey)));
-      console.log("Wallet balance before tx = ", JSON.stringify(provider.connection.getBalanceAndContext(provider.wallet.wallets[0])));
+
+      console.log("Base Account = ", baseAccount.publicKey);
+      console.log("Base Account balance before tx = ", await provider.connection.getBalance(baseAccount.publicKey));
+
+      console.log("Wallet = ", provider.wallet.wallets[0]);
+      console.log("Wallet balance before tx = ", await provider.connection.getBalance(provider.wallet.publicKey));
+
+
+      console.log("before tx");
 
       const transaction = new Transaction().add(
         SystemProgram.transfer({
@@ -62,13 +68,13 @@ function App() {
         })
       );
 
-      console.log("Transaction = ", JSON.stringify(transaction));
+      console.log("Transaction = ", transaction);
+      console.log(`Transferring  100000 lamports from ${baseAccount.publicKey.toString()} to ${provider.wallet.publicKey.toString()}`);
+      const signature = await sendTransaction(transaction, provider.connection);
 
-      const signature = await sendTransaction(provider.connection, transaction);
-
-      console.log("Signature = ", JSON.stringify(signature));
-      console.log("Wallet balance after tx = ", JSON.stringify(provider.connection.getBalanceAndContext(provider.wallet.wallets[0])));
-      console.log("Base Account balance after tx = ", JSON.stringify(provider.connection.getBalanceAndContext(baseAccount.publicKey)));
+      console.log("Signature = ", signature);
+      console.log("Wallet balance after tx = ", await provider.connection.getBalance(provider.wallet.publicKey));
+      console.log("Base Account balance after tx = ", await provider.connection.getBalance(baseAccount.publicKey));
 
 
       const account = await program.account.baseAccount.fetch(baseAccount.publicKey);
