@@ -1,6 +1,5 @@
-# Demo03
+# Demo04
 
-Demo02 finally ran fine but it didn't do much
 
 https://dev.to/dabit3/the-complete-guide-to-full-stack-solana-development-with-react-anchor-rust-and-phantom-3291
 
@@ -20,9 +19,7 @@ If on the Mac when building, need to update and fix the wallet path to `wallet =
 
 2. If the `target/idl/` does not have the program id try to get it from 
 `solana address -k target/deploy/{YOUR_APP}-keypair.json`
-where `{YOUR_APP}` in this case is `demo03` so `solana address -k target/deploy/demo03-keypair.json`
-
-Additionally, doing `anchor keys list` will give you the current `PubKey` for the program
+where `{YOUR_APP}` in this case is `demo04` so `solana address -k target/deploy/demo04-keypair.json`
 
 3. if the `target/idl/idl.json` is missing the program-id, add to the bottom of the json file after the `accounts`
 
