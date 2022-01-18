@@ -49,3 +49,8 @@ I fixed my issue 2 fold in package.json
 # React App
 Before running, in the `app` folder do
 `npm install @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets @solana/wallet-adapter-base`
+
+
+NEW FUCKING ERROR now
+./node_modules/@solana/wallet-adapter-phantom/lib/esm/adapter.mjs
+Can't import the named export 'BaseMessageSignerWalletAdapter' from non EcmaScript module (only default export is available)
