@@ -24,8 +24,6 @@ function App() {
   const [input, setInput] = useState('');
   const wallet = useWallet()
 
-
-
   async function getProvider() {
     /* create the provider and return it to the caller */
     /* network set to local network for now */
@@ -43,7 +41,6 @@ function App() {
     /* create the program interface combining the idl, program ID, and provider */
     const program = new Program(idl, programID, provider);
 
-    provider.wallet.
 
     try {
       /* interact with the program via rpc */
