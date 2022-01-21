@@ -1,0 +1,14 @@
+{
+    "version": "0.1.0",
+    "name": "demo05",
+    "instructions": [
+        {
+            "name": "initialize",
+            "accounts": [],
+            "args": []
+        }
+    ],
+    "metadata": {
+        "address": "9rdY4QezPM8cQnDUcZUdbMyNqrJEpdoBNMYmVvXfAJen"
+    }
+}
