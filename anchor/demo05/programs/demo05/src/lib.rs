@@ -12,6 +12,9 @@ pub mod demo05 {
         program_account.program_owned_account_key = program_key;
         program_account.amount = amount;
         program_account.user_authority_account_key = user_authority;
+
+        msg!("spk: inside create");
+
         Ok(())
     }
 }
