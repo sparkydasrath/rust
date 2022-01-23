@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl;
+//use anchor_spl;
 
 declare_id!("9rdY4QezPM8cQnDUcZUdbMyNqrJEpdoBNMYmVvXfAJen");
 
@@ -12,9 +12,6 @@ pub mod demo05 {
         program_account.program_owned_account_key = program_key;
         program_account.amount = amount;
         program_account.user_authority_account_key = user_authority;
-
-
-
         Ok(())
     }
 }
@@ -22,7 +19,7 @@ pub mod demo05 {
 // define the Create account to be used in the associated create() instruction
 #[derive(Accounts)]
 pub struct Create<'info> {
-    #[account(init, mut, payer=user_authority_account_key, space= 16 + 16)]
+    #[account(init, payer=user_authority_account, space= 16 + 16)]
     pub program_owned_account: Account<'info, ProgramOwnedAccount>,
     #[account(mut)]
     pub user_authority_account: Signer<'info>,
