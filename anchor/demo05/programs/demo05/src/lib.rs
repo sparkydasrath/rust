@@ -10,14 +10,14 @@ pub mod demo05 {
     use solana_program::program::invoke;
     use solana_program::system_instruction::transfer;
     use super::*;
-    pub fn create(ctx: Context<Create>, program_key:Pubkey, user_authority:Pubkey, amount:u64) ->
+    pub fn create(ctx: Context<Create>, program_key:Pubkey, user_authority:Pubkey, amount:u8) ->
                                                                                    ProgramResult {
         let program_account = &mut ctx.accounts.program_owned_account;
         let user_account = &mut ctx.accounts.user_authority_account;
         let system_account = &mut ctx.accounts.system_program;
 
         program_account.user_authority_account_key = *user_account.key;
-        program_account.program_owned_account_key = *program_account.program_owned_account_key;
+        //program_account.program_owned_account_key = *program_account.program_owned_account_key;
         program_account.amount = program_account.amount;
 
         msg!("spk: inside create");
@@ -55,15 +55,5 @@ pub struct ProgramOwnedAccount {
     pub program_owned_account_key: Pubkey,
     pub user_authority_account_key: Pubkey
 }
-
-// #[derive(Accounts)]
-// pub struct Deposit<'info> {
-//     #[account(mut)]
-//     pub from_user_authority_wallet: Pubkey,
-//     #[account(mut)]
-//     pub to_program_owned_account_key: Pubkey,
-//     #[account(mut)]
-//     amount: u64
-// }
 
 

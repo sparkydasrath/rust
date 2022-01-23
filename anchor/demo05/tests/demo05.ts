@@ -42,7 +42,9 @@ describe('demo05', () => {
     let userAccountBalance = await provider.connection.getBalance(userAccount.publicKey);
     console.log("UserAccountBalance is after airdrop is ", {userAccountBalance});
 */
-    const tx = await program.rpc.create(programAccount.publicKey, userAccount.publicKey, new BN(1), {
+    let amt = new BN(1);
+
+    const tx = await program.rpc.create(programAccount.publicKey, userAccount.publicKey, 1, {
       accounts:{
         programOwnedAccount: programAccount.publicKey,
         userAuthorityAccount: userAccount.publicKey,
@@ -57,6 +59,10 @@ describe('demo05', () => {
     // verify the program owned account was created on the blockchain
     let poa = await program.account.programOwnedAccount.fetch(programAccount.publicKey);
     console.log("Program owned account", poa);
+
+    console.log("Amount = ", poa.amount.toJSON());
+
+
 
   });
 });
