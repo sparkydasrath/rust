@@ -1,10 +1,13 @@
 use anchor_lang::prelude::*;
 //use anchor_spl;
-
+use solana_program;
+use anchor_lang::solana_program::system_instruction;
 declare_id!("9rdY4QezPM8cQnDUcZUdbMyNqrJEpdoBNMYmVvXfAJen");
 
 #[program]
 pub mod demo05 {
+    use solana_program::program::invoke;
+    use solana_program::system_instruction::transfer;
     use super::*;
     pub fn create(ctx: Context<Create>, program_key:Pubkey, user_authority:Pubkey, amount:u64) ->
                                                                                    ProgramResult {
@@ -14,6 +17,11 @@ pub mod demo05 {
         program_account.user_authority_account_key = user_authority;
 
         msg!("spk: inside create");
+
+        invoke(&transfer(&program_key, &user_authority, amount),
+
+        );
+
 
         Ok(())
     }

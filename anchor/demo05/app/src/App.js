@@ -1,7 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
+import {Connection, Keypair, PublicKey} from '@solana/web3.js';
+import {BN, Program, Provider, web3} from '@project-serum/anchor';
+import idl from './idl.json';
+import react from 'react';
+import * as anchor from "@project-serum/anchor";
+// import anchor from "@project-serum/anchor/src/index";
 
 function App() {
+
+  const programAccount = Keypair.generate();
+  const userAccount = Keypair.generate();
+  const programId = new PublicKey(idl.metadata.address);
+  const wallet = new anchor.Wallet(authorityKey);
+  const opts = {
+    preflightCommitment: "processed"
+  }
+
+  async function getProvider() {
+    /* create the provider and return it to the caller */
+    /* network set to local network for now */
+    const network = "http://127.0.0.1:8899";
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(connection, wallet, opts.preflightCommitment);
+    return provider;
+  }
+
+  async function doAirdrop(){
+    let provider = await getProvider();
+    let userAccountBalanceBeforeAirdrop = await provider.connection.getBalance(userAccount.publicKey);
+    console.log("UserAccountBalance before airdrop is ", {userAccountBalanceBeforeAirdrop});
+
+    console.log(`Airdropping 3 sol to UseAccount/Wallet ${userAccount.publicKey}`);
+    // airdrop 3 sol to userAccount
+    let airDropSig = await provider.connection.requestAirdrop(userAccount.publicKey, 3 * web3.LAMPORTS_PER_SOL)
+
+    // Confirming that the airdrop went through
+    let airDropTx = await provider.connection.confirmTransaction(airDropSig);
+    console.log(`Airdropped signature ${airDropTx.value}`);
+
+    // check the balance of the userAccount
+    let userAccountBalance = await provider.connection.getBalance(userAccount.publicKey);
+    console.log("UserAccountBalance is after airdrop is ", {userAccountBalance});
+  }
+
+  async function create()
+  {
+    await doAirdrop();
+    const provider = await getProvider();
+    const program = new Program(idl, programId, provider);
+
+    const tx = await program.rpc.create(programAccount.publicKey, userAccount.publicKey, new BN(1), {
+      accounts:{
+        programOwnedAccount: programAccount.publicKey,
+        userAuthorityAccount: userAccount.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId
+      },
+      signers:[programAccount]
+    });
+  }
+
+
   return (
     <div className="App">
       <header className="App-header">
