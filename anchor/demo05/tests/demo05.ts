@@ -16,6 +16,9 @@ describe('demo05', () => {
   const programId = idl.programId;
 
   it('Is Created!', async () => {
+    console.log(`Running CREATED TEST${programId}`);
+    console.log("-----------------------------------");
+
     console.log(`ProgramId is ${programId}`);
 
     let userAccountBalanceBeforeAirdrop = await provider.connection.getBalance(userAccount.publicKey);
