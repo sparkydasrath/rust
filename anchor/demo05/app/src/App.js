@@ -43,6 +43,13 @@ function App() {
     console.log("UserAccountBalance is after airdrop is ", {userAccountBalance});
   }
 
+  async function getBalance(){
+    let provider = await getProvider();
+    let userBalance = await provider.connection.getBalance(userAccount.publicKey);
+    let programBalance = await provider.connection.getBalance(programAccount.publicKey);
+    console.log(`Program Balance ${programBalance}\nUser Balance ${userBalance}`);
+  }
+
   async function create()
   {
     await doAirdrop();

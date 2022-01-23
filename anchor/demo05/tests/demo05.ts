@@ -48,18 +48,15 @@ describe('demo05', () => {
         userAuthorityAccount: userAccount.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId
       },
+      // Since Anchor automatically adds the wallet as a signer to each transaction, we don't need to change the signers array.
       signers:[programAccount]
     });
 
-
- /*   const tx = await program.rpc.create(/!*programAccount.publicKey, userAccount.publicKey, 1, *!/{
-      accounts:{
-        programOwnedAccount: programAccount.publicKey,
-        userAuthorityAccount: userAccount.publicKey,
-        systemProgram: anchor.web3.SystemProgram.programId
-      },
-      signers: [programAccount.publicKey]
-    });*/
     console.log("Your transaction signature", tx);
+
+    // verify the program owned account was created on the blockchain
+    let poa = await program.account.programOwnedAccount.fetch(programAccount.publicKey);
+    console.log("Program owned account", poa);
+
   });
 });
