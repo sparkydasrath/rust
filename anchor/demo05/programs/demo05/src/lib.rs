@@ -19,7 +19,7 @@ pub mod demo05 {
 // define the Create account to be used in the associated create() instruction
 #[derive(Accounts)]
 pub struct Create<'info> {
-    #[account(init, payer=user_authority_account, space= 16 + 16)]
+    #[account(init, payer=user_authority_account, space= 16 + 32 + 32)]
     pub program_owned_account: Account<'info, ProgramOwnedAccount>,
     #[account(mut)]
     pub user_authority_account: Signer<'info>,
