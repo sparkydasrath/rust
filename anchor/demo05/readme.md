@@ -19,7 +19,7 @@ If on the Mac when building, need to update and fix the wallet path to `wallet =
 
 2. If the `target/idl/` does not have the program id try to get it from 
 `solana address -k target/deploy/{YOUR_APP}-keypair.json`
-where `{YOUR_APP}` in this case is `demo04` so `solana address -k target/deploy/demo04-keypair.json`
+where `{YOUR_APP}` in this case is `demo05` so `solana address -k target/deploy/demo05-keypair.json`
 
 3. if the `target/idl/idl.json` is missing the program-id, add to the bottom of the json file after the `accounts`
 

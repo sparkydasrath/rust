@@ -12,10 +12,14 @@ pub mod demo05 {
         program_account.program_owned_account_key = program_key;
         program_account.amount = amount;
         program_account.user_authority_account_key = user_authority;
+
+
+
         Ok(())
     }
 }
 
+// define the Create account to be used in the associated create() instruction
 #[derive(Accounts)]
 pub struct Create<'info> {
     #[account(init, mut, payer=user_authority_account_key, space= 16 + 16)]
@@ -25,6 +29,7 @@ pub struct Create<'info> {
     pub system_program: Program<'info, System>,
 }
 
+// the type being used in a struct decorated with the Accounts attribute, like in Create above
 #[account]
 pub struct ProgramOwnedAccount {
     pub amount: u64,
