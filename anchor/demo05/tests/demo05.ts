@@ -60,7 +60,7 @@ describe('demo05', () => {
     let poa = await program.account.programOwnedAccount.fetch(programAccount.publicKey);
     console.log("Program owned account", poa);
 
-    console.log("Amount = ", poa.amount.toJSON());
+    console.log("Amount = ", poa.amount.toString());
 
 
 

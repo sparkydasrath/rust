@@ -51,7 +51,7 @@ pub struct Create<'info> {
 // the type being used in a struct decorated with the Accounts attribute, like in Create above
 #[account]
 pub struct ProgramOwnedAccount {
-    pub amount: u64,
+    pub amount: u8,
     pub program_owned_account_key: Pubkey,
     pub user_authority_account_key: Pubkey
 }
