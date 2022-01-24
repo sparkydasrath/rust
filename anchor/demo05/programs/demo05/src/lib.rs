@@ -17,15 +17,24 @@ pub mod demo05 {
         if amount <= 0 {
             return Err(ErrorCode::AmountIsZero.into());
         }
-
+        
         program_account.user_authority_account_key = *ctx.accounts.user_authority_account.key;
         program_account.amount = amount;
         program_account.deposit_account = deposit_account;
 
-        let from = &&ctx.accounts.user_authority_account.key;
-        let to = deposit_account.clone().key();
+        let from = ctx.accounts.user_authority_account.key;
+        let to = deposit_account.key();
 
-        transfer(from, &to, amount);
+
+        // not sure if this is the right approach
+        // seems to be the web3.js approach
+        // https://github.com/solana-labs/solana-web3.js/blob/master/examples/send_sol.js
+        let tx = transfer(from, &to, amount);
+
+        // see: https://github.com/solana-labs/solana-program-library/blob/master/examples/rust/transfer-lamports/src/processor.rs
+        ctx.accounts.user_authority_account.try_borrow_lamports() -= amount;
+
+        // NO idea how to handle the deposit_account since all I have is a pubkey...
 
         Ok(())
     }
