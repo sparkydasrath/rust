@@ -20,16 +20,21 @@ pub mod demo05 {
         
         program_account.user_authority_account_key = *ctx.accounts.user_authority_account.key;
         program_account.amount = amount;
-        program_account.deposit_account = deposit_account;
+        program_account.deposit_account = *ctx.accounts.deposit_account.key;
 
         let from = ctx.accounts.user_authority_account.key;
-        let to = deposit_account.key();
+        let to = ctx.accounts.deposit_account.key;
 
 
         // not sure if this is the right approach
         // seems to be the web3.js approach
         // https://github.com/solana-labs/solana-web3.js/blob/master/examples/send_sol.js
         let tx = transfer(from, &to, amount);
+        invoke(&tx,
+               &[
+                   *ctx.accounts.user_authority_account,
+                   *ctx.accounts.deposit_account
+               ]);
 
         // see: https://github.com/solana-labs/solana-program-library/blob/master/examples/rust/transfer-lamports/src/processor.rs
         ctx.accounts.user_authority_account.try_borrow_lamports() -= amount;
@@ -49,6 +54,8 @@ pub mod demo05 {
 pub struct Create<'info> {
     #[account(init, payer=user_authority_account, space= 8 + 64 + 32 + 32)]
     pub program_owned_account: Account<'info, ProgramOwnedAccount>,
+    #[account(init)]
+    pub deposit_account: AccountInfo<'info>,
     #[account(mut)]
     pub user_authority_account: Signer<'info>,
     #[account(address = system_program::ID)]
