@@ -1,8 +1,9 @@
 import * as anchor from '@project-serum/anchor';
-import { Program, web3 } from '@project-serum/anchor';
+import {BN, Program, Provider, web3} from '@project-serum/anchor';
 import { Demo05 } from '../target/types/demo05';
 import { readFileSync } from 'fs';
 import * as assert from "assert";
+import {Connection} from "@solana/web3.js";
 
 describe('demo05', () => {
 
@@ -18,6 +19,13 @@ describe('demo05', () => {
 
   const pid = new anchor.web3.PublicKey("9rdY4QezPM8cQnDUcZUdbMyNqrJEpdoBNMYmVvXfAJen");
 
+
+  async function getBalance(pubkey : anchor.web3.PublicKey, accountName:string){
+    let balance = await provider.connection.getBalance(pubkey);
+    console.log(`Balance of ${accountName} account is ${balance}`);
+  }
+
+/*
   it('Is Created!', async () => {
     console.log(`Running CREATED TEST${programId}`);
     console.log("-----------------------------------");
@@ -25,7 +33,7 @@ describe('demo05', () => {
     console.log(`ProgramId is ${programId}`);
     console.log(`ProgramId (pid) is ${pid}`);
 
-    /*
+    /!*
         // ALL THIS AIRDROP STUFF WORKS FINE
         let userAccountBalanceBeforeAirdrop = await provider.connection.getBalance(userAccount.publicKey);
         console.log("UserAccountBalance before airdrop is ", {userAccountBalanceBeforeAirdrop});
@@ -41,7 +49,7 @@ describe('demo05', () => {
         // check the balance of the userAccount
         let userAccountBalance = await provider.connection.getBalance(userAccount.publicKey);
         console.log("UserAccountBalance is after airdrop is ", {userAccountBalance});
-    */
+    *!/
 
     const tx = await program.rpc.create(1, {
       accounts: {
@@ -95,4 +103,38 @@ describe('demo05', () => {
     console.log("Amount = ", poa.amount.toString());
     assert.equal(poa.amount, 2);
   });
+*/
+
+  it('Verify Deposit', async () => {
+
+    let deposit_account = anchor.web3.Keypair.generate();
+
+   await getBalance(programAccount.publicKey, "Program Account");
+   await getBalance(userAccount.publicKey, "User Account");
+   await getBalance(deposit_account.publicKey, "Deposit Account");
+
+    const tx = await program.rpc.create(new BN(1), deposit_account, {
+      accounts: {
+        programOwnedAccount: programAccount.publicKey,
+        userAuthorityAccount: userAccount.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId
+      },
+      // Since Anchor automatically adds the wallet as a signer to each transaction, we don't need to change the signers array.
+      signers: [programAccount]
+    });
+
+    console.log("Your transaction signature", tx);
+
+    // verify the program owned account was created on the blockchain
+    let poa = await program.account.programOwnedAccount.fetch(programAccount.publicKey);
+    console.log("Program owned account", poa);
+
+   console.log("BALANCE after creation");
+    await getBalance(programAccount.publicKey, "Program Account");
+    await getBalance(userAccount.publicKey, "User Account");
+    await getBalance(deposit_account.publicKey, "Deposit Account");
+
+  });
+
+
 });

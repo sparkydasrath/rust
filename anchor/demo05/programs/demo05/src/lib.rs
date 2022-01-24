@@ -10,27 +10,28 @@ pub mod demo05 {
     use super::*;
     use solana_program::program::invoke;
     use solana_program::system_instruction::transfer;
-    pub fn create(ctx: Context<Create>, amount: u8) -> ProgramResult {
+    pub fn create(ctx: Context<Create>, amount: u64, deposit_account:Pubkey) -> ProgramResult {
         msg!("spk: inside create");
         let program_account = &mut ctx.accounts.program_owned_account;
+
         if amount <= 0 {
             return Err(ErrorCode::AmountIsZero.into());
         }
 
         program_account.user_authority_account_key = *ctx.accounts.user_authority_account.key;
-        //program_account.program_owned_account_key = *program_account.program_owned_account_key;
         program_account.amount = amount;
-
-        /*       let user_ai = *ctx.accounts.user_authority_account.to_account_info();
-        let program_ai = *ctx.accounts.program_owned_account.to_account_info();
+        program_account.deposit_account = deposit_account;
 
         invoke(
             &transfer(
                 &user_authority,
-                &program_key,
+                &deposit_account,
                 amount),
-            &[ user_ai, program_ai, ctx.accounts.system_program.to_account_info()]
-        );*/
+            &[
+                *ctx.accounts.user_authority_account.to_account_info(),
+                &deposit_account,
+                *ctx.accounts.system_program.to_account_info()]
+        );
 
         Ok(())
     }
@@ -39,7 +40,7 @@ pub mod demo05 {
 // define the Create account to be used in the associated create() instruction
 #[derive(Accounts)]
 pub struct Create<'info> {
-    #[account(init, payer=user_authority_account, space= 16 + 32)]
+    #[account(init, payer=user_authority_account, space= 8 + 64 + 32 + 32)]
     pub program_owned_account: Account<'info, ProgramOwnedAccount>,
     #[account(mut)]
     pub user_authority_account: Signer<'info>,
@@ -50,9 +51,9 @@ pub struct Create<'info> {
 // the type being used in a struct decorated with the Accounts attribute, like in Create above
 #[account]
 pub struct ProgramOwnedAccount {
-    pub amount: u8,
-    // pub program_owned_account_key: Pubkey,
+    pub amount: u64,
     pub user_authority_account_key: Pubkey,
+    pub deposit_account: Pubkey,
 }
 
 #[error]

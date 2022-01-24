@@ -11,7 +11,7 @@ function App() {
   const programAccount = Keypair.generate();
   const userAccount = Keypair.generate();
   const programId = new PublicKey(idl.metadata.address);
-  const wallet = new anchor.Wallet(authorityKey);
+  const wallet = new anchor.Wallet();
   const opts = {
     preflightCommitment: "processed"
   }
