@@ -17,7 +17,7 @@ pub mod demo05 {
             return Err(ErrorCode::AmountIsZero.into());
         }
 
-        program_account.user_authority_account_key = *user_account.key;
+        program_account.user_authority_account_key = *ctx.accounts.user_authority_account.key;
         //program_account.program_owned_account_key = *program_account.program_owned_account_key;
         program_account.amount = amount;
 

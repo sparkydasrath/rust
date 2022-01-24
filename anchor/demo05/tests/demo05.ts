@@ -2,7 +2,7 @@ import * as anchor from '@project-serum/anchor';
 import { Program, web3 } from '@project-serum/anchor';
 import { Demo05 } from '../target/types/demo05';
 import { readFileSync } from 'fs';
-import { BN } from "@project-serum/anchor";
+import * as assert from "assert";
 
 describe('demo05', () => {
 
@@ -45,6 +45,7 @@ describe('demo05', () => {
 
     const tx = await program.rpc.create(1, {
       accounts: {
+        programOwnedAccount: programAccount.publicKey,
         userAuthorityAccount: userAccount.publicKey,
         systemProgram: anchor.web3.SystemProgram.programId
       },
@@ -59,5 +60,39 @@ describe('demo05', () => {
     console.log("Program owned account", poa);
 
     console.log("Amount = ", poa.amount.toString());
+    assert.equal(poa.amount, 1);
+  });
+
+
+  it('Is Created2!', async () => {
+
+    let otherUser = anchor.web3.Keypair.generate();
+
+    // without airdropping this will fail with some dumbass reason and I can't find the logs
+    let sig = await provider.connection.requestAirdrop(otherUser.publicKey, 2*web3.LAMPORTS_PER_SOL)
+    await provider.connection.confirmTransaction(sig);
+    let bal = await provider.connection.getBalance(otherUser.publicKey);
+
+    console.log("Other use balance = ", bal);
+
+    let programAccount = anchor.web3.Keypair.generate();
+    const tx = await program.rpc.create(2, {
+      accounts: {
+        programOwnedAccount: programAccount.publicKey,
+        userAuthorityAccount: otherUser.publicKey,
+        systemProgram: anchor.web3.SystemProgram.programId
+      },
+      // Since Anchor automatically adds the wallet as a signer to each transaction, we don't need to change the signers array.
+      signers: [ programAccount, otherUser]
+    });
+
+    console.log("Your transaction signature", tx);
+
+    // verify the program owned account was created on the blockchain
+    let poa = await program.account.programOwnedAccount.fetch(programAccount.publicKey);
+    console.log("Program owned account", poa);
+
+    console.log("Amount = ", poa.amount.toString());
+    assert.equal(poa.amount, 2);
   });
 });
