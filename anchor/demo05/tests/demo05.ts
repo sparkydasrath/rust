@@ -3,7 +3,7 @@ import {BN, Program, Provider, web3} from '@project-serum/anchor';
 import { Demo05 } from '../target/types/demo05';
 import { readFileSync } from 'fs';
 import * as assert from "assert";
-import {Connection} from "@solana/web3.js";
+import {Connection, AccountInfo} from "@solana/web3.js";
 
 describe('demo05', () => {
 
@@ -108,6 +108,8 @@ describe('demo05', () => {
   it('Verify Deposit', async () => {
 
     let deposit_account = anchor.web3.Keypair.generate();
+
+
 
    await getBalance(programAccount.publicKey, "Program Account");
    await getBalance(userAccount.publicKey, "User Account");

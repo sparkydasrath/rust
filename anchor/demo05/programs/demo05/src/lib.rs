@@ -22,16 +22,22 @@ pub mod demo05 {
         program_account.amount = amount;
         program_account.deposit_account = deposit_account;
 
-        invoke(
+        transfer(
+            &user_authority,
+            &deposit_account,
+            amount);
+
+
+  /*      invoke(
             &transfer(
                 &user_authority,
                 &deposit_account,
                 amount),
             &[
-                *ctx.accounts.user_authority_account.to_account_info(),
-                &deposit_account,
-                *ctx.accounts.system_program.to_account_info()]
-        );
+                ctx.accounts.user_authority_account.to_account_info(),
+                deposit_account,
+                ctx.accounts.system_program.to_account_info()]
+        );*/
 
         Ok(())
     }
