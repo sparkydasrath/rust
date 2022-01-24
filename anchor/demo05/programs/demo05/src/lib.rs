@@ -37,7 +37,7 @@ pub mod demo05 {
                ]);
 
         // see: https://github.com/solana-labs/solana-program-library/blob/master/examples/rust/transfer-lamports/src/processor.rs
-        ctx.accounts.user_authority_account.try_borrow_lamports() -= amount;
+        //ctx.accounts.user_authority_account.try_borrow_lamports() -= amount;
 
         // NO idea how to handle the deposit_account since all I have is a pubkey...
 
