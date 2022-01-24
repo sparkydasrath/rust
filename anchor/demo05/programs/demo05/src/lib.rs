@@ -22,22 +22,10 @@ pub mod demo05 {
         program_account.amount = amount;
         program_account.deposit_account = deposit_account;
 
-        transfer(
-            &user_authority,
-            &deposit_account,
-            amount);
+        let from = &&ctx.accounts.user_authority_account.key;
+        let to = deposit_account.clone().key();
 
-
-  /*      invoke(
-            &transfer(
-                &user_authority,
-                &deposit_account,
-                amount),
-            &[
-                ctx.accounts.user_authority_account.to_account_info(),
-                deposit_account,
-                ctx.accounts.system_program.to_account_info()]
-        );*/
+        transfer(from, &to, amount);
 
         Ok(())
     }

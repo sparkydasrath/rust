@@ -109,13 +109,11 @@ describe('demo05', () => {
 
     let deposit_account = anchor.web3.Keypair.generate();
 
-
-
    await getBalance(programAccount.publicKey, "Program Account");
    await getBalance(userAccount.publicKey, "User Account");
    await getBalance(deposit_account.publicKey, "Deposit Account");
 
-    const tx = await program.rpc.create(new BN(1), deposit_account, {
+    const tx = await program.rpc.create(new BN(1), deposit_account.publicKey, {
       accounts: {
         programOwnedAccount: programAccount.publicKey,
         userAuthorityAccount: userAccount.publicKey,
@@ -135,6 +133,8 @@ describe('demo05', () => {
     await getBalance(programAccount.publicKey, "Program Account");
     await getBalance(userAccount.publicKey, "User Account");
     await getBalance(deposit_account.publicKey, "Deposit Account");
+
+
 
   });
 
