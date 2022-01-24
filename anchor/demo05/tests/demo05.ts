@@ -109,6 +109,8 @@ describe('demo05', () => {
 
     let deposit_account = anchor.web3.Keypair.generate();
 
+    let da = new anchor.Wallet(deposit_account);
+
    await getBalance(programAccount.publicKey, "Program Account");
    await getBalance(userAccount.publicKey, "User Account");
    await getBalance(deposit_account.publicKey, "Deposit Account");

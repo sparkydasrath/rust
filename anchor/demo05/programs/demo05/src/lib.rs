@@ -36,6 +36,10 @@ pub mod demo05 {
 
         // NO idea how to handle the deposit_account since all I have is a pubkey...
 
+        /*
+        Keypair.generate() then call program.provider.connection.getAccountInfo(pubkey)
+        */
+
         Ok(())
     }
 }
