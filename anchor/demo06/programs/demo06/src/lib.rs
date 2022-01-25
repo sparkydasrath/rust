@@ -20,8 +20,11 @@ pub mod demo06 {
         let account_infos = [
             authority_account.to_account_info(),
             test_deposit_account.to_account_info(),
-            system_account.to_account_info(),
+            /*system_account.to_account_info(),*/
         ];
+
+        msg!("spk: inside rust");
+
 
         let tx = transfer(
             authority_account.key,
