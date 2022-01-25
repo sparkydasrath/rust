@@ -8,7 +8,7 @@ declare_id!("BnHgqQKV6rjcJ371tkzHkjWJsEPQXt53hH84tWmqBEjZ");
 #[program]
 pub mod demo06 {
     use super::*;
-    use solana_program::native_token::{LAMPORTS_PER_SOL, lamports_to_sol};
+    use solana_program::native_token::{lamports_to_sol, LAMPORTS_PER_SOL};
     use solana_program::system_instruction::transfer;
     pub fn initialize(ctx: Context<Create>, lamports_in: u64) -> ProgramResult {
         let program_account = &mut ctx.accounts.program_account;
@@ -23,25 +23,14 @@ pub mod demo06 {
             system_account.to_account_info(),
         ];
 
-        transfer_sol(
+        let tx = transfer(
             authority_account.key,
             &test_deposit_account.deposit_account,
             test_deposit_account.lamports,
-            &account_infos,
         );
+        solana_program::program::invoke(&tx, &account_infos);
 
         Ok(())
-    }
-
-    pub fn transfer_sol(from: &Pubkey, to: &Pubkey, lamports: u64, infos: &[AccountInfo]) {
-        msg!("Creating transfer instruction");
-        let tx = transfer(from, to, lamports);
-        let account_infos = infos;
-
-        // this is not handled correctly as of now
-        // and it may not even be correct
-        msg!("Invoking instruction");
-        solana_program::invoke(tx, account_infos);
     }
 }
 

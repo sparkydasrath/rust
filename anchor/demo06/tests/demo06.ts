@@ -50,14 +50,14 @@ describe('demo06', () => {
     await airDrop(authority.publicKey, 2.5);
 
     // send instruction to smart contract
-    const tx = await program.rpc.initialize(1.3, {
+    const tx = await program.rpc.initialize(new BN(1.3), {
       accounts:{
         programAccount: programAccount.publicKey,
         testDepositAccount: depositAccount.publicKey,
         authority: authority.publicKey,
         systemProgram:anchor.web3.SystemProgram.programId
       },
-      signers:[programAccount, depositAccount]
+      signers:[depositAccount, programAccount]
     });
 
     console.log("Your transaction signature", tx);
