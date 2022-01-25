@@ -32,8 +32,10 @@ pub mod demo05 {
         let tx = transfer(from, &to, amount);
         invoke(&tx,
                &[
-                   *ctx.accounts.user_authority_account,
-                   *ctx.accounts.deposit_account
+                   ctx.accounts.user_authority_account.to_account_info(),
+                   ctx.accounts.deposit_account.to_account_info(),
+                   ctx.accounts.system_program.to_account_info()
+
                ]);
 
         // see: https://github.com/solana-labs/solana-program-library/blob/master/examples/rust/transfer-lamports/src/processor.rs
@@ -54,7 +56,7 @@ pub mod demo05 {
 pub struct Create<'info> {
     #[account(init, payer=user_authority_account, space= 8 + 64 + 32 + 32)]
     pub program_owned_account: Account<'info, ProgramOwnedAccount>,
-    #[account(init)]
+    #[account(init, payer=user_authority_account, space= 8 )]
     pub deposit_account: AccountInfo<'info>,
     #[account(mut)]
     pub user_authority_account: Signer<'info>,
