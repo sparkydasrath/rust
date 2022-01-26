@@ -14,17 +14,18 @@ pub mod demo06 {
         let program_account = &mut ctx.accounts.program_account;
         let authority_account = &mut ctx.accounts.authority;
         let system_account = &mut ctx.accounts.system_program;
-        let deposit_account = &mut ctx.accounts.program_account.deposit_account;
+        let deposit_account = &mut ctx.accounts.deposit_account;
         let lamports_to_deposit = lamports_in * LAMPORTS_PER_SOL;
+
 
         let account_infos = [
             authority_account.to_account_info(),
-            deposit_account,
+            deposit_account.to_account_info(),
         ];
 
         let tx = transfer(
             authority_account.key,
-            deposit_account,
+            deposit_account.key,
             lamports_to_deposit,
         );
         solana_program::program::invoke(&tx, &account_infos);
@@ -37,6 +38,8 @@ pub mod demo06 {
 pub struct Create<'info> {
     #[account(init, payer=authority, space=8+32+32)]
     program_account: Account<'info, CreateAccount>,
+    #[account(init, payer=authority, space=8)]
+    deposit_account: AccountInfo<'info>,
     #[account(mut)]
     authority: Signer<'info>,
     system_program: Program<'info, System>,
@@ -46,5 +49,5 @@ pub struct Create<'info> {
 pub struct CreateAccount {
     program_account: Pubkey,
     authority: Pubkey,
-    deposit_account: Pubkey,
+
 }
