@@ -53,7 +53,7 @@ describe('demo06', () => {
     const tx = await program.rpc.initialize(new BN(1.3), {
       accounts:{
         programAccount: programAccount.publicKey,
-        testDepositAccount: depositAccount.publicKey,
+        depositAccount: depositAccount.publicKey,
         authority: authority.publicKey,
         systemProgram:anchor.web3.SystemProgram.programId
       },
