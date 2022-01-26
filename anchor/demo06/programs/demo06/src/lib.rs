@@ -15,6 +15,7 @@ pub mod demo06 {
         let deposit_account = &mut ctx.accounts.deposit_account;
         let lamports_to_deposit = lamports_in * LAMPORTS_PER_SOL;
 
+        msg!("force git");
 
         let account_infos = [
             authority_account.to_account_info(),
