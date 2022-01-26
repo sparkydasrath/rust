@@ -11,9 +11,7 @@ pub mod demo06 {
     use solana_program::native_token::{lamports_to_sol, LAMPORTS_PER_SOL};
     use solana_program::system_instruction::transfer;
     pub fn initialize(ctx: Context<Create>, lamports_in: u64) -> ProgramResult {
-        let program_account = &mut ctx.accounts.program_account;
         let authority_account = &mut ctx.accounts.authority;
-        let system_account = &mut ctx.accounts.system_program;
         let deposit_account = &mut ctx.accounts.deposit_account;
         let lamports_to_deposit = lamports_in * LAMPORTS_PER_SOL;
 
@@ -49,5 +47,4 @@ pub struct Create<'info> {
 pub struct CreateAccount {
     program_account: Pubkey,
     authority: Pubkey,
-
 }
