@@ -37,7 +37,7 @@ pub mod demo06 {
 pub struct Create<'info> {
     #[account(init, payer=authority, space=8+32+32)]
     program_account: Account<'info, CreateAccount>,
-    #[account(init, payer=authority, space=8)]
+    #[account(init, payer=authority, space=16)]
     deposit_account: AccountInfo<'info>,
     #[account(mut)]
     authority: Signer<'info>,

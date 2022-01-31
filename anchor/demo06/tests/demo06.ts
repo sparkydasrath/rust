@@ -47,17 +47,17 @@ describe('demo06', () => {
     console.log("Starting account creation and deposit...\n");
 
     // add some SOL to the authority/wallet
-    await airDrop(authority.publicKey, 2.5);
+    await airDrop(authority.publicKey, 1);
 
     // send instruction to smart contract
-    const tx = await program.rpc.initialize(new BN(1.3), {
+    const tx = await program.rpc.initialize(new BN(1), {
       accounts:{
         programAccount: programAccount.publicKey,
         depositAccount: depositAccount.publicKey,
         authority: authority.publicKey,
         systemProgram:anchor.web3.SystemProgram.programId
       },
-      signers:[depositAccount, programAccount]
+      signers:[ programAccount, depositAccount]
     });
 
     console.log("Your transaction signature", tx);
@@ -65,7 +65,8 @@ describe('demo06', () => {
     console.log("==================\n")
 
     // verify the program account was created on the blockchain
-    let pgAccount = await program.account.programAccount.fetch(programAccount.publicKey);
+
+    let pgAccount = await program.account.createAccount.fetch(programAccount.publicKey);
     console.log(`Program account on chain ${pgAccount}\n`);
 
     console.log("Balance After creation\n");
