@@ -1,0 +1,12 @@
+[programs.localnet]
+demo08 = "H9KVjYvKVJar2daLSGE4o4nQYN5R3YqGAXJLrVD7KLCP"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/Users/Sparky/.config/solana/id.json"
+
+[scripts]
+test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
