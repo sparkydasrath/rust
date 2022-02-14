@@ -45,13 +45,11 @@ pub mod demo08 {
 
     // deposit into the pda account
     pub fn deposit_no_bump(ctx: Context<Transfer>, amount: u64, hash: u8) -> ProgramResult {
-
         let is_hash_valid = is_hash_valid(hash);
+        msg!("Is hash valid {0}", is_hash_valid);
 
-                
         let from = *ctx.accounts.client.key;
         let to = *ctx.accounts.pda.key;
-        let program_name_seed = "demo08";
         let ix = system_instruction::transfer(
             &from, &to, amount);
 
@@ -63,6 +61,9 @@ pub mod demo08 {
                 ctx.accounts.system_program.to_account_info()
             ]
         );
+
+
+
         msg!(tx);
         Ok(())
     }
