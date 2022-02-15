@@ -51,31 +51,34 @@ describe('demo08', async () => {
     // end helper
 
     // start MISC
-    // console.log("TEST WEB TX");
-    // let user1 = await createUser(2); //
-    // let [pda, bump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("demo08")], program.programId);
-    // let userBalanceBefore = await provider.connection.getBalance(user1.publicKey);
-    // let programBalanceBefore = await provider.connection.getBalance(pda);
-    // console.log(`Before user ${userBalanceBefore} program ${programBalanceBefore}`);
-    //
-    // let px = program.programId;
-    //
-    // let lamps = 0.25 * anchor.web3.LAMPORTS_PER_SOL;
-    //
-    // console.log(`Lamps to send ${lamps}`)
-    //
-    // let tx = new anchor.web3.Transaction()
-    //     .add(anchor.web3.SystemProgram.transfer({
-    //         fromPubkey: user1.publicKey,
-    //         toPubkey: pda,
-    //         lamports: lamps
-    //     }))
-    // let fakeSigner= anchor.web3.Keypair.generate();
-    // await anchor.web3.sendAndConfirmTransaction(provider.connection, tx, [user1]);
-    //
-    // let userBalanceAfter = await provider.connection.getBalance(user1.publicKey);
-    // let programBalanceAfter = await provider.connection.getBalance(pda);
-    // console.log(`After user ${userBalanceAfter} program ${programBalanceAfter}`);
+    console.log("TEST WEB TX");
+    let client = await createUser(2); // create a user and airdrop 2 sol to the account
+    let [pda, bump] = await anchor.web3.PublicKey.findProgramAddress([Buffer.from("demo08")], program.programId);
+    let userBalanceBefore = await provider.connection.getBalance(client.publicKey);
+    let programBalanceBefore = await provider.connection.getBalance(program.programId);
+
+    console.log(`Before client ${userBalanceBefore} program ${programBalanceBefore}`);
+
+    let lamps = 0.25 * anchor.web3.LAMPORTS_PER_SOL;
+
+    console.log(`Lamps to send ${lamps}`)
+
+    try {
+        let tx = new anchor.web3.Transaction()
+            .add(anchor.web3.SystemProgram.transfer({
+                fromPubkey: client.publicKey,
+                toPubkey: program.programId,
+                lamports: lamps
+            }))
+
+        await anchor.web3.sendAndConfirmTransaction(provider.connection, tx, [client]);
+    } catch (error) {
+        console.log(`Error : ${error}`);
+    }
+
+    let userBalanceAfter = await provider.connection.getBalance(client.publicKey);
+    let programBalanceAfter = await provider.connection.getBalance(program.programId);
+    console.log(`After client ${userBalanceAfter} program ${programBalanceAfter}`);
 
     // end MISC
 
