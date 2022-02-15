@@ -1,4 +1,4 @@
-# Demo07 Transfer SOL in Rust
+# Demo08 Transfer SOL in Rust
 
 ## Setup
 This is just mostly what I do to get up and running and will use Demo07 as the sample
