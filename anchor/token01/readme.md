@@ -28,8 +28,13 @@ In Typescript,
 3. Verify balances
 
 ## What I understand so far
-Looking at this [guide](https://pencilflip.medium.com/solanas-token-program-explained-de0ddce29714)
+Looking at these 
+* [guid1](https://pencilflip.medium.com/solanas-token-program-explained-de0ddce29714)
+* [guide2](https://github.com/cqfd/anchor-token-studies/blob/main/programs/token-studies/src/lib.rs) [cfqd on Anchor 
+  discord sent this to me]
+ 
 Assuming we are using the `spl-token` CLI
+
 ### Create Mint
 1. Use `spl-token create-token` to create the actual token *type* which will end up being some 32-byte 
    address. If you use this command, under the covers it will set the `mint-authority` property to the default user public key, 
@@ -42,6 +47,28 @@ Assuming we are using the `spl-token` CLI
 3. From 1 above you can then do `spl-token create-token --mint-authority ~/mint-authority.json` and it will set the 
    `mint-authority` on the token/mint account. This means that the key set as the `mint-authority` is allowed to 
    actually mint tokens. Let's call this `TOKEN_TO_MINT`.
+
+From that, I will need some sort of `struct` to hold the token/mint info to be created. After looking at the docs a 
+bit more, the samples I looked at was doing more than I needed and I *think* it can be simplified as 
+
+```rust
+#[derive(Accounts)]
+pub struct InitializeMint<'info>{
+    /* From the doc https://docs.rs/anchor-spl/0.21.0/anchor_spl/token/fn.initialize_mint.html 
+    We need to call CpiContext with the InitializeMint struct and need to pass in authority and 
+    decimals only
+    */
+    
+   #[derive(init, payer = payer, mint::decimals = 9, mint::authority = payer)]
+    pub mint : Account<'info, Mint>,
+    #[account(mut)]
+    pub payer: Signer<'info>,
+    pub system_program: Program<'info, System>,
+    pub token_program: Program<'info, Token>,
+}
+```
+
+
 
 ### Create account to mint tokens to
 So having the mint is not enough, you also need another account to actually mint and store your tokens into. You can 
