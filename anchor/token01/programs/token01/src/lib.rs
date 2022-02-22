@@ -27,12 +27,13 @@ pub mod token01 {
                 mint_related_accounts,
             );
 
-        let result = initialize_mint(
+        let result: ProgramResult = initialize_mint(
             cpi_context,
             decimals,
             mint_authority.key,
             Option::from(mint_authority.key),
-        )?;
+        );
+
         Ok(())
     }
 

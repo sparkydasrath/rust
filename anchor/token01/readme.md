@@ -51,6 +51,10 @@ Assuming we are using the `spl-token` CLI
 From that, I will need some sort of `struct` to hold the token/mint info to be created. After looking at the docs a 
 bit more, the samples I looked at was doing more than I needed and I *think* it can be simplified as 
 
+Additionally, it seems that in order to create a mint, it has to be done via a PDA which will also give you the mint 
+address. Otherwise, when you call the `initialize_mint` function, there is not really any return value - that I know 
+of as now. However, when you use the CLI you get the token/mint address back. Very confusing.
+
 ```rust
 #[derive(Accounts)]
 pub struct InitializeMint<'info>{
