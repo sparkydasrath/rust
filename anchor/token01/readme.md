@@ -72,9 +72,91 @@ pub struct InitializeMint<'info>{
 }
 ```
 
-
-
 ### Create account to mint tokens to
 So having the mint is not enough, you also need another account to actually mint and store your tokens into. You can 
 set that up like `spl-token create-account TOKEN_TO_MINT --owner MINT_AUTH`. So right now this `MINT_AUTH` owns the 
 actual token-type/min as well as the account used to mint said tokens to.
+
+2022.02.21 
+I cannot get this fucking thing to build to even write a test so I will have to experiment with the CLI for now
+
+1. Generate two new wallets
+   (Wrote new keypair to /Users/Sparky/token01_wallet1.json)
+   `solana-keygen new -o ~/token01_wallet1.json` : `97rHdDdyeX3xADTL3cEGWJohRgs8ZKDTiiFYuTsig9WB`
+   `solana-keygen new -o ~/token01_wallet2.json` : `H8xLn1kqcFDs2C8yRe3EF3AgfFCYSRCDqXs8ELRhjkwp`
+2. Create two environment variables to store the keys for easy use with the command
+`export variable=value` ex `export TOKADDR1=97rHdDdyeX3xADTL3cEGWJohRgs8ZKDTiiFYuTsig9WB`
+
+`export variable=value` ex `export TOKADDR2=H8xLn1kqcFDs2C8yRe3EF3AgfFCYSRCDqXs8ELRhjkwp`
+
+Can check the value of the variable using `echo $TOKADDR1`
+
+3. Create the token using `TOKADDR1` as the `mint-authority`
+`spl-token create-token --mint-authority ~/token01_wallet1.json`
+
+```
+Creating token 279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR
+
+Signature: 2B8cygvvwtEB8X2gfCuKNMofGvH4VxotJPeqnC5eswdE6RWbpAqLCSyJGYMGVdJBHzDMJ7L9tM39KzhWYfqcH3Y4
+```
+
+solana config:
+```
+Config File: /Users/Sparky/.config/solana/cli/config.yml
+RPC URL: http://localhost:8899 
+WebSocket URL: ws://localhost:8900/ (computed)
+Keypair Path: /Users/Sparky/.config/solana/id.json 
+Commitment: confirmed
+```
+
+4. Check the account
+
+```
+solana account 279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR
+
+Public Key: 279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR
+Balance: 0.0014616 SOL
+Owner: TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA
+Executable: false
+Rent Epoch: 0
+Length: 82 (0x52) bytes
+0000:   01 00 00 00  78 9e b5 76  1f 41 dd d8  87 79 18 06   ....x..v.A...y..
+0010:   1f 23 9e 54  9f 66 2e 6a  8e ab ba 31  77 b8 18 76   .#.T.f.j...1w..v
+0020:   14 9c b8 24  00 00 00 00  00 00 00 00  09 01 00 00   ...$............
+0030:   00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00   ................
+0040:   00 00 00 00  00 00 00 00  00 00 00 00  00 00 00 00   ................
+0050:   00 00                                                ..
+```
+
+**NOTE:** `Public Key: 279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR` is the mint address
+
+Set the mint address as an env variable `export MINT1=279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR`
+
+5. Create a token account to mint tokens from the mint (279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR) to
+`spl-token create-account $MINT1 --owner $TOKADDR1`
+This will create an account that we can mint tokens of type `MINT1` to
+```
+Creating account C7DxiuhD6RAmRDRi1Wn9QeJN34pXWCcnL9Tg896FnMZy
+
+Signature: 3LVVDTSg8J4zbGZ8RJRZXEdMqQPkKx7djamAd74cZDyhxNkbpu1JRZpKpdbptumkh84JUEUEvmAW9UCoMzsG4P12
+```
+Set this as an env var: `export TOKENACCNT1=C7DxiuhD6RAmRDRi1Wn9QeJN34pXWCcnL9Tg896FnMZy`
+
+6. Mint tokens from $MINT1 to $TOKENACCNT1
+
+Check the balance: `spl-token balance $MINT1 --owner $TOKADDR1`
+Mint: `spl-token mint $MINT1 10 $TOKENACCNT1 --mint-authority ~/token01_wallet1.json` (*note* Can't use $TOKADDR1 here)
+```
+Minting 10 tokens
+Token: 279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR
+Recipient: C7DxiuhD6RAmRDRi1Wn9QeJN34pXWCcnL9Tg896FnMZy
+```
+
+7. Check all the tokens you own
+`spl-token accounts  --owner $TOKADDR1`
+
+```
+Token                                         Balance
+---------------------------------------------------------------
+279hvbgg3m4z1VaL8ULeYVqzBVZEYnU9tcWrPobTCbsR  10
+```
